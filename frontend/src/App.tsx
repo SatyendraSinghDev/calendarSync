@@ -48,6 +48,8 @@ type Dashboard = {
 
 type CalendarView = 'day' | 'week' | 'month' | 'year';
 
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
+
 const defaultDate = '2026-09-15';
 
 const toDateInputValue = (date: Date) => {
@@ -100,7 +102,7 @@ function App() {
   const fetchDashboard = async (date = selectedDate) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/dashboard?date=${date}`, { credentials: 'include' });
+      const response = await fetch(`${API_BASE_URL}/dashboard?date=${date}`, { credentials: 'include' });
       if (!response.ok) {
         let message = 'Unable to load shared calendar data.';
         try {
@@ -149,7 +151,7 @@ function App() {
 
   const connectGoogleCalendar = async () => {
     try {
-      const response = await fetch('/api/auth/google-url', { credentials: 'include' });
+      const response = await fetch(`${API_BASE_URL}/auth/google-url`, { credentials: 'include' });
       const json = await response.json();
       if (!response.ok) {
         throw new Error(json.message || 'Google OAuth is not configured yet.');
@@ -166,7 +168,7 @@ function App() {
 
   const logoutGoogleCalendar = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+      await fetch(`${API_BASE_URL}/auth/logout`, { method: 'POST', credentials: 'include' });
       window.location.reload();
     } catch (logoutError) {
       console.error(logoutError);
@@ -175,7 +177,7 @@ function App() {
 
   const createEvent = async () => {
     try {
-      const response = await fetch('/api/events', {
+      const response = await fetch(`${API_BASE_URL}/events`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -213,7 +215,7 @@ function App() {
             <button onClick={() => fetchDashboard()}>Retry</button>
             <button
               onClick={async () => {
-                await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                await fetch(`${API_BASE_URL}/auth/logout`, { method: 'POST', credentials: 'include' });
                 await connectGoogleCalendar();
               }}
             >
