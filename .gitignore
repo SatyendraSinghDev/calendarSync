@@ -1,0 +1,9 @@
+node_modules
+.env
+frontend/dist
+frontend/*.js
+frontend/*.d.ts
+frontend/*.tsbuildinfo
+backend/.env
+.DS_Store
+npm-debug.log*
