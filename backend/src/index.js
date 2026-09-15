@@ -31,6 +31,14 @@ app.use(
   })
 );
 
+app.get('/', (_req, res) => {
+  res.json({
+    service: 'calendarSync API',
+    status: 'ok',
+    health: '/api/health'
+  });
+});
+
 const isPlaceholderValue = (value) => !value || value.includes('your-google') || value.includes('demo-client');
 
 const hasGoogleConfig = Boolean(
