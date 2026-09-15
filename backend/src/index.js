@@ -14,8 +14,10 @@ dotenv.config({ path: path.resolve(backendDirectory, '../../.env') });
 const app = express();
 const port = Number(process.env.PORT || 5000);
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+const isProduction = process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL);
 
 app.use(cors({ origin: frontendUrl, credentials: true }));
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(
   session({
@@ -24,8 +26,10 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: false,
+      // Frontend and API are separate Vercel sites in production, so the
+      // session cookie must be allowed on cross-site credentialed requests.
+      sameSite: isProduction ? 'none' : 'lax',
+      secure: isProduction,
       maxAge: 1000 * 60 * 60 * 24
     }
   })
