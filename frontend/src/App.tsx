@@ -50,14 +50,14 @@ type CalendarView = 'day' | 'week' | 'month' | 'year';
 
 const API_BASE_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
 
-const defaultDate = '2026-09-15';
-
 const toDateInputValue = (date: Date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+const defaultDate = toDateInputValue(new Date());
 
 const formatTime = (dateString: string) =>
   new Intl.DateTimeFormat('en-IN', {

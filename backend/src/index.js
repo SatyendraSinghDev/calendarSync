@@ -15,6 +15,7 @@ const app = express();
 const port = Number(process.env.PORT || 5000);
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 const isProduction = process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL);
+const currentDate = () => new Date().toISOString().slice(0, 10);
 
 app.use(cors({ origin: frontendUrl, credentials: true }));
 app.set('trust proxy', 1);
@@ -409,7 +410,7 @@ app.get('/api/calendar', async (req, res) => {
 });
 
 app.get('/api/conflicts', async (req, res) => {
-  const date = String(req.query.date || '2026-09-15');
+  const date = String(req.query.date || currentDate());
   try {
     const events = await getEventsForDate(date, req);
     const conflicts = findConflicts(events);
@@ -426,7 +427,7 @@ app.get('/api/conflicts', async (req, res) => {
 });
 
 app.get('/api/availability', async (req, res) => {
-  const date = String(req.query.date || '2026-09-15');
+  const date = String(req.query.date || currentDate());
   try {
     const events = await getEventsForDate(date, req);
     return res.json({
@@ -441,7 +442,7 @@ app.get('/api/availability', async (req, res) => {
 });
 
 app.get('/api/dashboard', async (req, res) => {
-  const date = String(req.query.date || '2026-09-15');
+  const date = String(req.query.date || currentDate());
   const googleConnected = Boolean(req.session?.googleTokens);
 
   try {
