@@ -2,6 +2,9 @@
 
 CalendarSync is a shared Google Calendar and conflict-detection application. It connects a Google account with OAuth 2.0, reads the calendars that the account can access, normalizes events into one format, detects overlaps, and displays the result in a Google Calendar-style interface.
 
+<img width="959" height="467" alt="image" src="https://github.com/user-attachments/assets/d606633d-05dc-4c00-a517-7428c94c09fb" />
+
+
 ## 1. Architecture at a glance
 
 ```text
