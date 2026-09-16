@@ -391,7 +391,7 @@ app.post('/api/events', async (req, res) => {
 });
 
 app.get('/api/calendar', async (req, res) => {
-  const date = String(req.query.date || '2026-09-15');
+  const date = String(req.query.date || currentDate());
   const googleConnected = Boolean(req.session?.googleTokens);
 
   try {
